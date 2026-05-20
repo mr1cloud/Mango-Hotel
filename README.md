@@ -1,0 +1,3 @@
+# Mango-Hotel
+
+Say Mango! And enjoy your timeee...
