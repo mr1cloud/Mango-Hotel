@@ -6,11 +6,12 @@ from modules.staff import Staff
 
 init(autoreset=True)
 
+
 class HotelApp:
     def __init__(self):
-        self.db    = None
+        self.db = None
         self.staff = None
-        self.menu  = {
+        self.menu = {
             "1": ("Staff Management", self._staff_menu),
             "0": ("Exit", None),
         }
@@ -19,7 +20,7 @@ class HotelApp:
         try:
             mongo = MongoDB("mongodb://localhost:27017")
             mongo.connect()
-            self.db    = mongo.get_database("mango_hotel")
+            self.db = mongo.get_database("mango_hotel")
             self.staff = Staff(self.db)
             self.print("Database connected successfully!", color="GREEN")
         except Exception as e:
@@ -53,7 +54,7 @@ class HotelApp:
             print("\nMenu:")
             for key, (label, _) in self.menu.items():
                 self.print(f"  {key}. {label}")
-            
+
             choice = input("\nEnter your choice: ").strip()
             if choice not in self.menu:
                 self.print("Invalid choice. Please try again.", color="RED")
