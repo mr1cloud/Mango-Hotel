@@ -1,0 +1,4 @@
+art==6.5
+colorama==0.4.6
+dnspython==2.8.0
+pymongo==4.17.0
