@@ -3,6 +3,7 @@ from colorama import init, Fore, Style
 import os
 from core.mongo import MongoDB
 from modules.staff import Staff
+from modules.rooms import Rooms
 
 init(autoreset=True)
 
@@ -11,8 +12,10 @@ class HotelApp:
     def __init__(self):
         self.db = None
         self.staff = None
+        self.rooms = None
         self.menu = {
             "1": ("Staff Management", self._staff_menu),
+            "2": ("Room Management", self._rooms_menu),
             "0": ("Exit", None),
         }
 
@@ -22,6 +25,7 @@ class HotelApp:
             mongo.connect()
             self.db = mongo.get_database("mango_hotel")
             self.staff = Staff(self.db)
+            self.rooms = Rooms(self.db)
             self.print("Database connected successfully!", color="GREEN")
         except Exception as e:
             self.print(f"Warning: Could not connect to MongoDB: {e}", color="YELLOW")
@@ -44,6 +48,12 @@ class HotelApp:
             self.staff.menu()
         else:
             self.print("Database connection failed. Staff management unavailable.", color="RED")
+
+    def _rooms_menu(self):
+        if self.rooms:
+            self.rooms.menu()
+        else:
+            self.print("Database connection failed. Room management unavailable.", color="RED")
 
     def run(self):
         self.connect()
