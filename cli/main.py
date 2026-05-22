@@ -2,7 +2,7 @@ from art import tprint
 from colorama import init, Fore, Style
 import os
 from core.mongo import MongoDB
-from modules import Staff, Rooms, Guests, Bookings
+from modules import Staff, Rooms, Guests, Bookings, Services
 
 init(autoreset=True)
 
@@ -14,11 +14,13 @@ class HotelApp:
         self.rooms = None
         self.guests = None
         self.bookings = None
+        self.services = None
         self.menu = {
             "1": ("Staff Management", self._staff_menu),
             "2": ("Room Management", self._rooms_menu),
             "3": ("Guest Management", self._guests_menu),
             "4": ("Booking Management", self._bookings_menu),
+            "5": ("Service Management", self._services_menu),
             "0": ("Exit", None),
         }
 
@@ -31,6 +33,7 @@ class HotelApp:
             self.rooms = Rooms(self.db)
             self.guests = Guests(self.db)
             self.bookings = Bookings(self.db)
+            self.services = Services(self.db)
             self.print("Database connected successfully!", color="GREEN")
         except Exception as e:
             self.print(f"Warning: Could not connect to MongoDB: {e}", color="YELLOW")
@@ -71,6 +74,12 @@ class HotelApp:
             self.bookings.menu()
         else:
             self.print("Database connection failed. Booking management unavailable.", color="RED")
+
+    def _services_menu(self):
+        if self.services:
+            self.services.menu()
+        else:
+            self.print("Database connection failed. Service management unavailable.", color="RED")
 
     def run(self):
         self.connect()
